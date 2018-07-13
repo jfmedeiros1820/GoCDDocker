@@ -1,0 +1,14 @@
+go-server:
+  image: gocd/gocd-server:v18.6.0
+  ports:
+    - '8153:8153'
+    - '8154:8154'
+  volumes:
+    - /tmp/go:/home/go
+
+gocd-agent-node:
+  build: ./agents/node/
+  links:
+    - go-server
+  environment:
+    GO_SERVER_URL: https://go-server:8154/go
